@@ -1,0 +1,49 @@
+/* @import url("https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap"); */
+
+@import "tailwindcss";
+
+/* @theme {
+  --font-main: Montserrat, "sans-serif";
+} */
+
+/* @layer utilities {
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+  .no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+} */
+/* ─── Override Leaflet z-index ───────────────────────────────────────────── */
+.leaflet-pane,
+.leaflet-tile,
+.leaflet-overlay-pane,
+.leaflet-marker-pane,
+.leaflet-shadow-pane,
+.leaflet-popup-pane,
+.leaflet-container .leaflet-control-container,
+.leaflet-container .leaflet-control,
+.leaflet-container .leaflet-top,
+.leaflet-container .leaflet-bottom {
+  z-index: 0 !important;
+}
+.leaflet-control {
+  z-index: 0 !important;
+}
+.leaflet-pane {
+  z-index: 0 !important;
+}
+.leaflet-top,
+.leaflet-bottom {
+  z-index: 0 !important;
+}
+
+/* Hide default scrollbars  ───────────────────────────────────────────── */
+.hide-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.hide-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
