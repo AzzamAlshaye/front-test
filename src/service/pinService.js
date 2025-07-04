@@ -13,11 +13,15 @@ export const pinService = {
   },
 
   /**
-   * GET /pins
+   * GET /pins?filter=&search=
+   * @param {string} filter   "public" | "private" | "group"
+   * @param {string} search
    * @returns {Promise<Array>}
    */
-  list() {
-    return primaryAPI.get(pinEndpoints.list).then((r) => r.data);
+  list(filter = "public", search = "") {
+    return primaryAPI
+      .get(pinEndpoints.list, { params: { filter, search } })
+      .then((r) => r.data);
   },
 
   /**
