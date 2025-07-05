@@ -12,6 +12,12 @@ export const userService = {
     return primaryAPI.put(userEndpoints.updateSelf, data).then((r) => r.data);
   },
 
+
+// updateSelf(data, config = {}) {
+//   return primaryAPI.put(userEndpoints.updateSelf, data, config).then((r) => r.data);
+// },
+
+
   /**
    * DELETE /users/me
    * @returns {Promise<void>}
