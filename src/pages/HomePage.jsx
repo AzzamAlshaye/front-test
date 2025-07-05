@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { FaMapMarkerAlt, FaUsers, FaGlobe } from "react-icons/fa";
+import { useNavigate } from "react-router"
 
 const scrollFadeIn = {
   hidden: { opacity: 0, y: 50 },
@@ -13,11 +14,20 @@ const scrollFadeIn = {
 
 export default function HomePage() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const navigate = useNavigate(); 
 
   useEffect(() => {
     const token = localStorage.getItem("token");
     setIsLoggedIn(!!token);
   }, []);
+// switch between pages
+  const handleButtonClick = () => {
+    if (isLoggedIn) {
+      navigate("/mapPage");
+    } else {
+      navigate("/SignupPage");
+}
+  };
 
   return (
     <main className="space-y-24 overflow-hidden">
@@ -56,6 +66,7 @@ export default function HomePage() {
               transition={{ delay: 0.3, type: "spring", stiffness: 100, damping: 20 }}
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
+              onClick={handleButtonClick} 
               className="bg-[#fb8951] text-white px-8 py-3 rounded-full shadow-lg hover:opacity-90 scale-110 cursor-pointer hover:delay-300 duration-400"
             >
               {isLoggedIn ? "Create Your Memory" : "Start Your First Memory"}

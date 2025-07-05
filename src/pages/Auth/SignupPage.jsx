@@ -196,10 +196,8 @@ export default function SignupPage() {
     className="text-red-500 text-sm mt-1"
   />
 </div>
-
-
-              {/* Submit */}
-              <button
+{/* Submit */}
+<button
                 type="submit"
                 disabled={isSubmitting}
                 className="w-full py-2  bg-[#fb8951] text-white font-semibold rounded-full hover:opacity-90 transition"
