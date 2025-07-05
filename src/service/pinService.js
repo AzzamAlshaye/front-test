@@ -1,6 +1,6 @@
 // src/services/pinService.js
-import { primaryAPI } from "./api/client";
-import { pinEndpoints } from "./api/endpoints";
+import { primaryAPI } from "../api/client";
+import { pinEndpoints } from "../api/endpoints";
 
 export const pinService = {
   /**
