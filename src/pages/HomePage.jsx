@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from "react";
-import { motion } from "framer-motion";
-import { FaMapMarkerAlt, FaUsers, FaGlobe } from "react-icons/fa";
+import React, { useEffect, useState } from "react"
+import { motion } from "framer-motion"
+import { FaMapMarkerAlt, FaUsers, FaGlobe } from "react-icons/fa"
 import { useNavigate } from "react-router"
 
 const scrollFadeIn = {
@@ -10,24 +10,24 @@ const scrollFadeIn = {
     y: 0,
     transition: { duration: 0.8, ease: [0.25, 0.1, 0.25, 1] },
   },
-};
+}
 
 export default function HomePage() {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const navigate = useNavigate(); 
+  const [isLoggedIn, setIsLoggedIn] = useState(false)
+  const navigate = useNavigate()
 
   useEffect(() => {
-    const token = localStorage.getItem("token");
-    setIsLoggedIn(!!token);
-  }, []);
-// switch between pages
+    const token = localStorage.getItem("token")
+    setIsLoggedIn(!!token)
+  }, [])
+  // switch between pages
   const handleButtonClick = () => {
     if (isLoggedIn) {
-      navigate("/mapPage");
+      navigate("/mapPage")
     } else {
-      navigate("/SignupPage");
-}
-  };
+      navigate("/SignupPage")
+    }
+  }
 
   return (
     <main className="space-y-24 overflow-hidden">
@@ -57,16 +57,22 @@ export default function HomePage() {
               variants={scrollFadeIn}
               className="text-gray-700 text-lg max-w-lg mx-auto md:mx-0"
             >
-              Pin photos, videos, voice notes, and personal stories to exact map locations. Relive your adventures like never before.
+              Pin photos, videos, voice notes, and personal stories to exact map
+              locations. Relive your adventures like never before.
             </motion.p>
             <motion.button
               initial={{ opacity: 0, scale: 0.8 }}
               whileInView={{ opacity: 1, scale: 1 }}
               viewport={{ once: true, amount: 0.3 }}
-              transition={{ delay: 0.3, type: "spring", stiffness: 100, damping: 20 }}
+              transition={{
+                delay: 0.3,
+                type: "spring",
+                stiffness: 100,
+                damping: 20,
+              }}
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
-              onClick={handleButtonClick} 
+              onClick={handleButtonClick}
               className="bg-[#fb8951] text-white px-8 py-3 rounded-full shadow-lg hover:opacity-90 scale-110 cursor-pointer hover:delay-300 duration-400"
             >
               {isLoggedIn ? "Create Your Memory" : "Start Your First Memory"}
@@ -152,9 +158,13 @@ export default function HomePage() {
           className="max-w-3xl mx-auto text-center bg-gradient-to-r from-gray-100 to-gray-50 p-8 rounded-2xl shadow-md"
         >
           <p className="italic text-gray-700 text-lg mb-4">
-            “Every memory tells a story—and every story can inspire a journey. Share your moments, and let your posts become a guide for others exploring the world.”
+            “Every memory tells a story—and every story can inspire a journey.
+            Share your moments, and let your posts become a guide for others
+            exploring the world.”
           </p>
-          <span className="font-semibold text-gray-500">— The Map Memory Team</span>
+          <span className="font-semibold text-gray-500">
+            — The Map Memory Team
+          </span>
         </motion.div>
       </section>
 
@@ -194,7 +204,11 @@ export default function HomePage() {
                 transition={{ delay: i * 0.2 }}
                 className="bg-white rounded-xl hover:scale-105 delay-500 duration-500 p-6 flex flex-col items-center text-center shadow-md hover:shadow-lg transition"
               >
-                <img src={t.img} alt={t.name} className="w-16 h-16 rounded-full mb-4" />
+                <img
+                  src={t.img}
+                  alt={t.name}
+                  className="w-16 h-16 rounded-full mb-4"
+                />
                 <div className="font-bold">{t.name}</div>
                 <div className="text-sm text-gray-500 mb-2">{t.role}</div>
                 <p className="text-gray-600 text-sm">{t.text}</p>
@@ -204,5 +218,5 @@ export default function HomePage() {
         </div>
       </section>
     </main>
-  );
+  )
 }

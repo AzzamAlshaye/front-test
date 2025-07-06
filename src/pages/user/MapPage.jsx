@@ -2,6 +2,10 @@
 import React, { useState, useEffect, useMemo } from "react";
 import PinsMap from "../../components/PinsMap";
 import ViewPin from "../../components/ViewPin";
+<<<<<<< HEAD
+=======
+import CreatePost from "../../components/CreatePost";
+>>>>>>> d66e25e841f51b570db9fd8e5184a436630abe50
 import { pinService } from "../../service/pinService";
 import { groupService } from "../../service/groupService";
 
@@ -14,6 +18,10 @@ export default function MapPage() {
 
   const [selectedPinId, setSelectedPinId] = useState(null);
   const [selectedPin, setSelectedPin] = useState(null);
+<<<<<<< HEAD
+=======
+  const [newPinLocation, setNewPinLocation] = useState(null);
+>>>>>>> d66e25e841f51b570db9fd8e5184a436630abe50
 
   useEffect(() => {
     setLoading(true);
@@ -48,6 +56,11 @@ export default function MapPage() {
   }, [pins]);
 
   const openPin = (id) => setSelectedPinId(id);
+<<<<<<< HEAD
+=======
+  const handleMapClick = (e) =>
+    setNewPinLocation({ lat: e.latlng.lat, lng: e.latlng.lng });
+>>>>>>> d66e25e841f51b570db9fd8e5184a436630abe50
 
   const renderSidebar = () => {
     if (loading) return <p className="p-4 text-gray-500">Loading…</p>;
@@ -101,6 +114,10 @@ export default function MapPage() {
   return (
     <div className="flex flex-col min-h-screen bg-gradient-to-br from-sky-50 to-white">
       <main className="flex-1 max-w-7xl mx-auto p-4">
+<<<<<<< HEAD
+=======
+        {/* Search & Filter */}
+>>>>>>> d66e25e841f51b570db9fd8e5184a436630abe50
         <div className="bg-white p-4 rounded shadow mb-6 flex gap-4">
           <input
             type="text"
@@ -119,21 +136,86 @@ export default function MapPage() {
             <option value="group">Group</option>
           </select>
         </div>
+<<<<<<< HEAD
         <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
           <div className="lg:col-span-3 h-[70vh] rounded overflow-hidden shadow">
             <PinsMap pins={pins} onPinClick={openPin} />
+=======
+
+        {/* Map & Sidebar */}
+        <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
+          <div className="lg:col-span-3 h-[70vh] rounded overflow-hidden shadow">
+            <PinsMap
+              pins={pins}
+              onPinClick={openPin}
+              onMapClick={handleMapClick}
+            />
+>>>>>>> d66e25e841f51b570db9fd8e5184a436630abe50
           </div>
           <aside className="bg-white p-6 rounded shadow overflow-y-auto max-h-[70vh]">
             <h3 className="text-xl font-semibold mb-4">My Memories</h3>
             <ul className="space-y-2">{renderSidebar()}</ul>
           </aside>
         </div>
+<<<<<<< HEAD
+=======
+
+        {/* Existing Pin Detail */}
+>>>>>>> d66e25e841f51b570db9fd8e5184a436630abe50
         {selectedPin && (
           <ViewPin
             pinId={selectedPinId}
             onClose={() => setSelectedPinId(null)}
           />
         )}
+<<<<<<< HEAD
+=======
+
+        {/* Create Post Modal */}
+        {newPinLocation && (
+          <div className="fixed inset-0 z-50 bg-black bg-opacity-50 flex items-center justify-center p-4">
+            <div className="bg-white rounded-lg overflow-auto max-h-full shadow-xl">
+              <CreatePost
+                initialLocation={newPinLocation}
+                onSubmit={({
+                  title,
+                  description,
+                  selectedPrivacy,
+                  mediaFiles,
+                }) => {
+                  // split images vs video
+                  const images = mediaFiles.filter((f) =>
+                    f.type.startsWith("image/")
+                  );
+                  const video =
+                    mediaFiles.find((f) => f.type.startsWith("video/")) || null;
+
+                  pinService
+                    .createWithMedia(
+                      {
+                        title,
+                        description,
+                        privacy: selectedPrivacy,
+                        latitude: newPinLocation.lat,
+                        longitude: newPinLocation.lng,
+                        // add groupId here if needed
+                      },
+                      images,
+                      video
+                    )
+                    .then(() => {
+                      setNewPinLocation(null);
+                      // refresh pins list
+                      return pinService.list(filter, search).then(setPins);
+                    })
+                    .catch(console.error);
+                }}
+                onCancel={() => setNewPinLocation(null)}
+              />
+            </div>
+          </div>
+        )}
+>>>>>>> d66e25e841f51b570db9fd8e5184a436630abe50
       </main>
     </div>
   );
