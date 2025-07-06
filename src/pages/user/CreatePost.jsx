@@ -19,22 +19,82 @@ function CreatePost() {
     setSelectedPrivacy(option);
   };
 
-  const handleSubmit = () => {
-    if (!title.trim()) {
-      Swal.fire({
-        icon: 'warning',
-        title: 'Missing Title',
-        text: 'Please enter a title for your memory!',
-      });
-      return;
-    }
+  // const handleSubmit = () => {
+  //   if (!title.trim()) {
+  //     Swal.fire({
+  //       icon: 'warning',
+  //       title: 'Missing Title',
+  //       text: 'Please enter a title for your memory!',
+  //     });
+  //     return;
+  //   }
+
+  //   Swal.fire({
+  //     icon: 'success',
+  //     title: 'Memory Pinned!',
+  //     text: 'Your memory has been successfully pinned.',
+  //   });
+  // };
+
+
+import { pinService } from "../services/pinService"; // تأكد من المسار
+
+const handleSubmit = async () => {
+  if (!title.trim()) {
+    Swal.fire({
+      icon: 'warning',
+      title: 'Missing Title',
+      text: 'Please enter a title for your memory!',
+    });
+    return;
+  }
+
+  try {
+    // استرجع المستخدم الحالي (يفترض وجود دالة userService.getCurrentUser)
+    const currentUser = await userService.getCurrentUser();
+
+    const newPinData = {
+      title,
+      description,
+      privacy: selectedPrivacy,
+      userId: currentUser.id,
+      location: {
+        name: "Central Park, New York", // قم بإدخال الموقع الفعلي لاحقًا
+        lat: 40.785091, // مثال
+        lng: -73.968285, // مثال
+      },
+      media: [], // لاحقًا يمكن تحميل الصور
+      author: {
+        name: currentUser.name,
+        avatar: currentUser.avatar || "https://randomuser.me/api/portraits/men/32.jpg",
+      },
+      createdAt: new Date().toISOString(),
+    };
+
+    // حفظ في السيرفر
+    const createdPin = await pinService.create(newPinData);
+
+    // حفظ مؤقت في localStorage لعرضه في صفحة Profile مباشرة
+    localStorage.setItem("newPin", JSON.stringify(createdPin));
 
     Swal.fire({
       icon: 'success',
       title: 'Memory Pinned!',
       text: 'Your memory has been successfully pinned.',
     });
-  };
+
+    // يمكنك عمل redirect أو إغلاق النموذج هنا
+  } catch (error) {
+    console.error("Failed to create pin", error);
+    Swal.fire({
+      icon: 'error',
+      title: 'Error',
+      text: 'Something went wrong while pinning your memory.',
+    });
+  }
+};
+
+
 
   return (
     <div className="max-w-3xl mx-auto p-6 bg-gray-50 shadow-md rounded-lg space-y-6">
@@ -80,8 +140,7 @@ function CreatePost() {
             />
           </div>
         </div>
-
-        {/* Privacy Settings */}
+{/* Privacy Settings */}
         <div>
           <label className="block text-lg font-semibold text-gray-700 mb-2">Privacy Setting</label>
           <div className="grid grid-cols-3 gap-4">
@@ -193,3 +252,5 @@ function CreatePost() {
 }
 
 export default CreatePost;
+
+

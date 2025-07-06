@@ -33,26 +33,39 @@ function Profile() {
   //     setMemories(data || []);
   //   });
   // }, []);
+useEffect(() => {
+  let currentUserId = null;
 
-  useEffect(() => {
-    let currentUserId = null;
+  userService.getCurrentUser()
+    .then((data) => {
+      setUser(data);
+      setName(data.name || "");
+      setEmail(data.email || "");
+      currentUserId = data.id;
 
-    userService.getCurrentUser()
-      .then((data) => {
-        setUser(data);
-        setName(data.name || "");
-        setEmail(data.email || "");
-        currentUserId = data.id;
+      pinService.list("", "") 
+        .then((pins) => {
+          const filteredPins = (pins || []).filter(
+            (pin) => String(pin.owner?._id || pin.owner) === String(currentUserId)
+          );
+          setMemories(filteredPins);
 
-        pinService.list()
-          .then((pins) => {
-            const filteredPins = (pins || []).filter((pin) => pin.userId === currentUserId);
-            setMemories(filteredPins);
-          })
-          .catch((err) => console.error("Failed to fetch memories", err));
-      })
-      .catch((err) => console.error("Failed to fetch user", err));
-  }, []);
+          const storedNewPin = localStorage.getItem("newPin");
+          if (storedNewPin) {
+            const newPin = JSON.parse(storedNewPin);
+            if (String(newPin.owner?._id || newPin.owner) === String(currentUserId)) {
+              setMemories((prev) => [...prev, newPin]);
+            }
+            localStorage.removeItem("newPin");
+          }
+        })
+        .catch((err) => console.error("Failed to fetch memories", err));
+    })
+    .catch((err) => console.error("Failed to fetch user", err));
+}, []);
+
+
+
 
   const handleSave = () => {
     const updateData = { name, email };
@@ -228,19 +241,19 @@ function Profile() {
                   <h4 className="text-lg font-bold text-gray-800 mb-2">
                     {memory.title}
                   </h4>
-                  <p className="text-gray-500 text-xs mb-1 uppercase tracking-wide">
-                    {JSON.stringify(memory.location)}
-                  </p>
-                  <p className="text-gray-700 text-sm mb-4 line-clamp-3">
+    <p className="text-gray-500 text-xs mb-1 uppercase tracking-wide">
+  {`${memory.location.lat.toFixed(4)}, ${memory.location.lng.toFixed(4)}`}
+</p>
+ <p className="text-gray-700 text-sm mb-4 line-clamp-3">
                     {memory.description}
                   </p>
-                  <p className="text-gray-400 text-xs">{memory.date}</p>
-                </div>
+                  {/* <p className="text-gray-400 text-xs">{memory.date}</p> */}
+                  <p className="text-gray-400 text-xs">{new Date(memory.createdAt).toLocaleDateString()}</p>
+ </div>
               </div>
             ))}
           </div>
-
-          {/* تعديل Pin */}
+{/* edit pins */}
           {editingPin && (
             <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
               <div className="bg-white p-6 rounded-lg shadow-xl w-full max-w-md">
