@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import {
   FaEnvelope,
   FaCamera,
+  FaEllipsisV,
   FaEdit,
   FaTrash,
   FaEye,
@@ -187,7 +188,7 @@ function Profile() {
               </button>
             </div>
           </div>
-        </section>
+        </div>
 
         {/* Memories Section */}
         <section className="flex-1 mb-10">
@@ -230,9 +231,6 @@ function Profile() {
                   </h4>
                   <p className="text-gray-500 text-xs mb-1 uppercase tracking-wide">
                     {JSON.stringify(memory.location)}
-                  </p>
-                  <p className="text-gray-700 text-sm mb-4 line-clamp-3">
-                    {memory.description}
                   </p>
                   <p className="text-gray-400 text-xs">{memory.date}</p>
                 </div>
@@ -282,5 +280,3 @@ function Profile() {
     </div>
   );
 }
-
-export default Profile;
